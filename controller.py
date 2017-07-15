@@ -78,7 +78,7 @@ def refresh():
         init_pdf = ag.speed_recognition(training_robot.sensor_speed_buffer, init_pdf)    
         intended_speed = init_pdf[0]
 #        dp.record_pressure_data("diff_speed3", force_data, speed_data)
-        dp.record_intentional_angle("diff_speed3",  intended_speed)
+#        dp.record_intentional_angle("diff_speed3",  intended_speed)
 #        instruction_label['text'] = str(intended_speed)
         
 #        if confidence > 0.6:

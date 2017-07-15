@@ -18,8 +18,8 @@ def calc_peak_width(load_speed):
         elif load_speed[index] * load_speed[index + 1] < 0:
             zero_cross_index.append(index)
 #    print zero_cross_index
-#    walking_power = sum(data for data in load_speed[zero_cross_index[-2]: zero_cross_index[-1]])
-    #Calculate the derivative of zero crossing points.
+# walking_power = sum(data for data in load_speed[zero_cross_index[-2]: zero_cross_index[-1]])
+# Calculate the derivative of zero crossing points.
 
     space = 0
     index = -1
@@ -37,6 +37,16 @@ def calc_peak_width(load_speed):
     peak_height = space / peak_width
     return [peak_height, space]
 
+def calc_peak_height(load_speed):
+    for sample in load_speed[::-1]:
+        if load_speed.index(sample) == len(load_speed) - 1 or load_speed.index(sample) == len(load_speed) - 2:
+            pass
+        elif load_speed[load_speed.index(sample) - 2] == load_speed[load_speed.index(sample) - 1] == load_speed[load_speed.index(sample) - 2]:
+            break
+        elif (load_speed[load_speed.index(sample) - 2] <= sample) and (load_speed[load_speed.index(sample) + 2]
+             <= sample):
+            return sample
+            
 def calc_moving_power(load_speed):
     """Calculate the current moving power in order to be certain
        whether the load sensor is considered active.
@@ -52,11 +62,8 @@ def speed_recognition(load_speed, init_pdf):
     for i in range(6):
         peak_feature[i] = calc_peak_width(load_speed[i])
 #        moving_power[i] = calc_moving_power(load_speed[i])
-        if peak_feature[i] == 0:
-            peak_test[i] = 0
-        else:
-            peak_test[i] = peak_feature[i][0]
-    print peak_feature
+        peak_test[i] = calc_peak_height(load_speed[i])
+        
     dp.record_pressure_data("diff_speed3", peak_test, peak_test)
     for feature in peak_feature:
         if feature == 0:
