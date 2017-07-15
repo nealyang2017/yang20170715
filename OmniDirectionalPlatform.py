@@ -137,7 +137,7 @@ class OmniDirectionalPlatform:
         """
 
         if self.simulation == 0:
-            # Real operation mode
+            # Real operation mode(biad needed)
             # Send some data in order to recieve info
             for i in range(3):
                 self.motion_control(self.angle, self.speed, 0)
@@ -155,15 +155,15 @@ class OmniDirectionalPlatform:
                 self.sensor_data_buffer[i].append(int(sensor_data[(6 + i * 6) : (10 + i * 6)]) - self.sensor_bias[i])
                 del self.sensor_data_buffer[i][0]
         else:
-            # Simulatio mode
+            # Simulatio mode(no bias needed)
             new_line = self.simulation_data.readline().split('\t') # Read in a line of data file per time
             # Recieve speed data
             for i in range(6):
-                self.sensor_speed_buffer[i].append(int(new_line[i]) - self.sensor_bias[i] - self.sensor_data_buffer[i][-1])
+                self.sensor_speed_buffer[i].append(int(new_line[i]) - self.sensor_data_buffer[i][-1])
                 del self.sensor_speed_buffer[i][0]
             # Recieve pressure data
             for i in range(6):
-                self.sensor_data_buffer[i].append(int(new_line[i]) - self.sensor_bias[i])
+                self.sensor_data_buffer[i].append(int(new_line[i]))
 #                print self.simulation_data.readline().split('\t')[i]
                 del self.sensor_data_buffer[i][0]
     
