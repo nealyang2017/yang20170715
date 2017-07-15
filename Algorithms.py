@@ -4,6 +4,7 @@ from LoadSensorTsvFile import *
 import numpy as np
 import matplotlib.pyplot as plt 
 import math
+import data_process as dp
 
 def calc_peak_width(load_speed):
     """Calculate the nearest passed peak width."""
@@ -32,8 +33,9 @@ def calc_peak_width(load_speed):
 #        print space
     if space < 5 or space > 100:
         return 0
-    peak_width = zero_cross_index[index+1] - zero_cross_index[index]
-    return [peak_width, space]
+    peak_width = float(zero_cross_index[index+1]) - zero_cross_index[index]
+    peak_height = space / peak_width
+    return [peak_height, space]
 
 def calc_moving_power(load_speed):
     """Calculate the current moving power in order to be certain
@@ -46,10 +48,16 @@ def speed_recognition(load_speed, init_pdf):
        LOAD_SPEED is a list of size 50.
     """
     peak_feature = [0] * 6 
+    peak_test = [0] * 6 
     for i in range(6):
         peak_feature[i] = calc_peak_width(load_speed[i])
 #        moving_power[i] = calc_moving_power(load_speed[i])
+        if peak_feature[i] == 0:
+            peak_test[i] = 0
+        else:
+            peak_test[i] = peak_feature[i][0]
     print peak_feature
+    dp.record_pressure_data("diff_speed3", peak_test, peak_test)
     for feature in peak_feature:
         if feature == 0:
             pass

@@ -52,7 +52,7 @@ def refresh():
 #    intended_angle_box = [30, 35, 73, 131, 144, 100, 65]
 #    intended_angle_box = [-90, -90, -60, -30, 0, 30, 60, 90]
 #    intended_angle_box = [30, 35]
-    init_pdf = ag.pdf(5, 1)
+    init_pdf = ag.pdf(15, 1)
     intended_angle = 0
     while True:
 #        refresh_time += 1
@@ -77,7 +77,7 @@ def refresh():
 #        print confidence
         init_pdf = ag.speed_recognition(training_robot.sensor_speed_buffer, init_pdf)    
         intended_speed = init_pdf[0]
-        dp.record_pressure_data("diff_speed3", force_data, speed_data)
+#        dp.record_pressure_data("diff_speed3", force_data, speed_data)
         dp.record_intentional_angle("diff_speed3",  intended_speed)
 #        instruction_label['text'] = str(intended_speed)
         
