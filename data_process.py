@@ -28,7 +28,7 @@ def log_to_path(file_name):
     """Write in path log data, produce a tsv data point file"""
     data_x = []
     data_y = []
-    f = open('Recorded_Data/' + file_name + '.txt', 'w')
+    f = open('Recorded_Data/' + file_name + '.txt', 'r')
     line_index = 0
     for line in f:
         if "LE:0" in line:
@@ -38,9 +38,12 @@ def log_to_path(file_name):
                 data_x.append(float(match[0]))
                 data_y.append(float(match[1]))
             line_index += 1
+    f.close()
     file = open('Recorded_Data/' + file_name + '.tsv', 'w')
     for i in range(len(data_x)):
         file.write(str(data_x[i]) + '\t')
         file.write(str(data_y[i]) + '\t')
         file.write('\n')
     file.close()
+     
+#log_to_path('20170716_142025RTLS_log')
